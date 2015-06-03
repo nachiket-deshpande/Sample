@@ -1,0 +1,13 @@
+.totalsTable tr:nth-child(2) span {
+  color: black;
+  font-size: 120%;
+}
+.totalsTable tr:nth-child(1) span {
+  color: black;
+  font-size: 120%;
+}
+
+.totalsTable th {
+  color: black;
+  font-size: 135%;
+}
