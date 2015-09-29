@@ -1,0 +1,51 @@
+<project name="" default="test" basedir="." xmlns:sf="antlib:com.salesforce">
+
+    <property file="build.properties"/>
+    <property environment="env"/>
+
+    <taskdef resource="com/salesforce/antlib.xml" uri="antlib:com.salesforce">
+        <classpath>
+            <pathelement location="../ant-salesforce.jar" />
+        </classpath>
+    </taskdef>
+	
+	 <!-- Deploy the unpackaged set of metadata retrieved with retrieveUnpackaged -->
+    <target name="deployUnpackagedMock">
+      <sf:deploy username="${sfmock.username}" password="${sfmock.password}" serverurl="${sfmock.serverurl}" maxPoll="${sf.maxPoll}" deployRoot="..\Dev\src" rollbackOnError="true"/>
+    </target>
+	
+    <!-- Deploy the unpackaged set of metadata retrieved with retrieveUnpackaged -->
+    <target name="deployUnpackagedsit">
+      <sf:deploy username="${sfsit.username}" password="${sfsit.password}" serverurl="${sfsit.serverurl}" maxPoll="${sf.maxPoll}" deployRoot="..\Dev\src" rollbackOnError="true"/>
+    </target>
+	
+    <!-- Deploy the unpackaged set of metadata retrieved with retrieveUnpackaged -->
+    <target name="deployUnpackageddev">
+      <sf:deploy username="${sfdev.username}" password="${sfdev.password}" serverurl="${sfdev.serverurl}" maxPoll="${sf.maxPoll}" deployRoot="..\Dev\src" rollbackOnError="true"/>
+    </target>	
+
+	<target name="retrieveUnpackagedsit">
+      <mkdir dir="..\Dev\src"/>
+      <sf:retrieve username="${sfsit.username}" password="${sfsit.password}" serverurl="${sfsit.serverurl}" maxPoll="${sf.maxPoll}" retrieveTarget="..\Dev\src" unpackaged="package.xml"/>
+    </target>
+	
+    <!-- Retrieve an unpackaged set of metadata from your org -->
+    <target name="retrieveUnpackageddci">
+	
+	<tstamp> 
+		<format property="TODAY" pattern="yyyy-MM-dd" locale="en"/> 
+	</tstamp>	
+      <mkdir dir="..\Dev${TODAY}\src"/>
+      <sf:retrieve username="${sfdci.username}" password="${sfdci.password}" serverurl="${sfdci.serverurl}" maxPoll="${sf.maxPoll}" retrieveTarget="..\Dev${TODAY}\src" unpackaged="package.xml"/>
+    </target>
+
+	<!-- Retrieve an unpackaged set of metadata from your org -->
+    <target name="retrieveUnpackagedProd">
+	<tstamp> 
+		<format property="TODAY" pattern="yyyy-MM-dd" locale="en"/> 
+	</tstamp>
+      <mkdir dir="..\Dev${TODAY}\src"/>
+      <sf:retrieve username="${sfprod.username}" password="${sfprod.password}" serverurl="${sfprod.serverurl}" maxPoll="${sf.maxPoll}" retrieveTarget="..\Dev${TODAY}\src" unpackaged="package.xml"/>
+    </target>	
+	
+</project>
