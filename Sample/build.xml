@@ -38,6 +38,13 @@
       <sf:retrieve username="${sfdev.username}" password="${sfdev.password}" serverurl="${sfdev.serverurl}" maxPoll="${sfdev.maxPoll}" retrieveTarget="dev${TODAY}\src" unpackaged="package.xml"/>
     </target>
 	
+    <target name="NoDateretrieveUnpackaged">
+	
+      <mkdir dir="dev\src"/>
+      <!-- Retrieve the contents into another directory -->
+      <sf:retrieve username="${sfdev.username}" password="${sfdev.password}" serverurl="${sfdev.serverurl}" maxPoll="${sfdev.maxPoll}" retrieveTarget="dev\src" unpackaged="package.xml"/>
+    </target>	
+	
     <!-- Deploy the unpackaged set of metadata retrieved with retrieveUnpackaged and run tests in this organization's namespace only-->
     <target name="deployUnpackaged">
       <sf:deploy username="${sfsit.username}" password="${sfsit.password}" serverurl="${sfsit.serverurl}" maxPoll="${sfsit.maxPoll}" deployRoot="..\built_Sample\dev\src" rollbackOnError="true"/>
