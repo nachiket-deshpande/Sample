@@ -1,6 +1,12 @@
 public with sharing class accountSearch {
     
     //Global Variables.
+    //
+    //
+    //
+    
+    //
+    //
     public String strAccountName{get;set;}
     
     public Boolean boolShowMsg {get;set;}
