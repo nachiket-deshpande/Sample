@@ -2,7 +2,55 @@
 <Package xmlns="http://soap.sforce.com/2006/04/metadata">
     <types>
         <members>Account</members>
+		<members>*</members>
         <name>CustomObject</name>
+    </types>
+    <types>        
+		<members>*</members>
+        <name>ApexClass</name>
+    </types>
+    <types>
+        <members>*</members>
+        <name>ApexPage</name>
+    </types>
+    <types>
+        <members>*</members>
+        <name>ApexTrigger</name>
+    </types>
+	<types>
+		<members>*</members>
+        <name>Layout</name>
+    </types>
+    <types>
+        <members>*</members>
+        <name>Letterhead</name>
+    </types>
+    <types>
+        <members>*</members>
+        <name>OpportunityCriteriaBasedSharingRule</name>
+    </types>
+    <types>
+        <members>*</members>
+        <name>OpportunityOwnerSharingRule</name>
+    </types>
+    <types>
+        <members>*</members>
+        <name>Profile</name>
+    </types>
+    <types>
+        <members>*</members>
+        <name>Queue</name>
+    </types>
+    <types>
+        <members>*</members>
+        <name>Role</name>
+    </types>
+    <types>
+        <members>*</members>
+        <name>StaticResource</name>
+    </types>
+	<types>
+        <name>Workflow</name>
     </types>
     <version>31.0</version>
 </Package>

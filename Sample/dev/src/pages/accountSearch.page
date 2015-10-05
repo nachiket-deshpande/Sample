@@ -1,0 +1,120 @@
+<apex:page controller="accountSearch" sidebar="false" showHeader="flase" standardStylesheets="false" showChat="FALSE">
+    <html xmlns="__http://www.w3.org/2000/svg" xmlns:xlink="__http://www.w3.org/1999/xlink">
+    
+    <apex:includeScript value="{!URLFOR($Resource.DataTableResources, 'jquery-2.1.4.min.js')}"/>
+    <apex:includeScript value="{!URLFOR($Resource.DataTableResources,'jquery.dataTables.min.js')}"/>
+    
+    <apex:stylesheet value="{!URLFOR($Resource.SLDS080, 'assets/styles/salesforce-lightning-design-system-vf.css')}" />
+    <apex:stylesheet value="{!URLFOR($Resource.SLDS080, 'assets/styles/salesforce-lightning-design-system.css')}" />
+    <apex:stylesheet value="{!URLFOR($Resource.SLDS080, 'assets/styles/salesforce-lightning-design-system.min.css')}" />
+    <apex:stylesheet value="{!URLFOR($Resource.SLDS080, 'assets/styles/salesforce-lightning-design-system-vf.min.css')}" />
+    <apex:stylesheet value="{!URLFOR($Resource.DataTableResources,'jquery.dataTables.min.css')}" />
+
+    <style>
+        .buttonalign{
+            text-align: center!important;
+        }
+        .verticalScroll{
+            overflow-y: auto;
+            overflow-x: auto;
+        }
+        .inputStyle{
+            width: 50%!important;
+            margin-bottom:2px!important;
+        }
+    </style>
+    <script>
+        var $j = jQuery.noConflict();
+    
+        $j(document).ready(function(){            
+        
+            $j('.slds-form-element').addClass("verticalScroll");
+            $j('.dataTables_filter').addClass("slds-text-heading--small");
+            $j('.dataTables_length').addClass("slds-text-heading--small");                          
+            $j('.dataTables_filter').find("input").addClass("slds-input");
+            $j('.dataTables_filter').find("input").addClass("inputStyle");
+            $j('.slds-table').find("th div").css("color","#54698D");
+            $j('.slds-table').find("th div").css("text-transform","uppercase");
+            $j('.slds-table').find("th").css("border-bottom","0px");
+            $j('.slds-table').css("border-color","#D8DDE6");
+        });
+    </script>
+    <apex:form id="searchPCPForm" styleClass="slds-form-element slds-form--inline slds-grid--frame">
+        <apex:outputPanel id="pcpSearchPanel">
+                   
+            <div id="accordionSearch" style="" class="slds-page-header" role="banner">
+                <img src="{!$Resource.Deloitte_Icon}" style=" height:100px; margin-top:-11px"/>
+                <!--<span class="slds-text-heading--medium">HEALTHFIRST</span>-->
+            </div>
+            <div class="slds-notify slds-notify--alert slds-theme--inverse-text slds-theme--alert-texture" style="font-size:20px">
+                <apex:pageMessages id="error" rendered="{!boolShowUpdate}"/>
+            </div>
+            <div aria-labelledby="newAccountForm" class ="slds-form-element__control" style="width:100%;padding-left:10px">
+                <fieldset class="slds-box slds-theme--default slds-container--small">
+
+                    <legend id="newAccountForm" class="slds-text-heading--medium slds-p-vertical--medium">Account Search</legend>
+                    <table id="searchBlockLeft" width="50%" align="left">
+                        <tr>
+                            <td><apex:outputLabel value="Name" style="font-size:20px" styleClass="slds-form-element__label"/></td>&nbsp;
+                            <td><apex:inputText value="{!strAccountName}" styleClass="slds-input"/></td>&nbsp;
+                            <td class="buttonalign"><apex:commandButton value="Search Account" rerender="searchPCPForm" action="{!searchButtonClicked}" styleClass="slds-button slds-button--brand" onclick="showStatus();" oncomplete="hideStatus();"/></td>&nbsp;&nbsp;&nbsp;
+                            <td><apex:commandButton value="Clear" action="{!ClearAccount}" reRender="searchPCPForm" styleClass="slds-button slds-button--brand" rendered="{!boolShowClear}"/></td>
+                        </tr>
+                    </table>
+                </fieldset>    
+            </div>
+            <center>
+                <div id ="loadingStatus" class="slds-spinner--medium" style="align:center; display:none; z-index: 9999; position:fixed; top:50%; left:50%;">
+                  <apex:image url="{!URLFOR($Resource.SLDS080, 'assets/images/spinners/slds_spinner_brand.gif')}" />
+                </div>
+            </center>
+            <script>
+                function showStatus(){
+                    document.getElementById('loadingStatus').style.display = "";
+                }
+                
+                function hideStatus(){
+                    document.getElementById('loadingStatus').style.display = "none";
+                }
+                
+                function clearResult(elementId)
+                {
+                     document.getElementById(elementId).innerHTML= '';
+                }
+                
+            </script>
+            
+            <apex:outputPanel id="panelSearchResults" rendered="{!boolShowInfo}">
+
+                <div id="accordionResults" style=" width:100%; padding-left:10px; padding-right:10px">
+                    <fieldset class="slds-box slds-theme--default slds-container--extralarge" style="width:100%">
+                        <legend id="accordionResults" class="slds-text-heading--medium slds-p-vertical--medium">Account List<span id="accountSearchResult" style="font-size: 75%;"></span></legend>
+                            <apex:dataTable width="100%" id="resultsBlock" styleClass="slds-table slds-table--bordered" value="{!lstAccount}" var="objAccount">
+                                <apex:column value="{!objAccount.Name}" headerValue="Name"/>
+                                <apex:column value="{!objAccount.Industry}" headerValue="Industry"/>
+                                <apex:column value="{!objAccount.Phone}" headerValue="Phone"/>
+                                <apex:column value="{!objAccount.AccountNumber}" headerValue="Account Number"/>
+                                <apex:column value="{!objAccount.DunsNumber}" headerValue="D-U-N-S Number"/>
+                            </apex:dataTable>
+                    </fieldset>
+                </div>
+            </apex:outputPanel>
+        </apex:outputPanel>
+        
+        <script>
+            $j(document).ready(function() {  
+                $j('.slds-table').DataTable();
+                $j('.slds-form-element').addClass("verticalScroll");
+                $j('.dataTables_filter').addClass("slds-text-heading--small");                          
+                $j('.slds-table').find("th div").css("color","#54698D");
+                $j('.dataTables_filter').find("input").addClass("slds-input");
+                $j('.dataTables_filter').find("input").addClass("inputStyle");
+                $j('.slds-table').find("th div").css("text-transform","uppercase");
+                $j('.dataTables_length').addClass("slds-text-heading--small");
+                $j('.slds-table').find("th").css("border-bottom","0px");
+                $j('.slds-table').css("border-color","#D8DDE6");
+            });
+        </script>
+    </apex:form>
+  </html>  
+</apex:page>

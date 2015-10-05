@@ -1,0 +1,5 @@
+<apex:page standardController="Case" renderAs="PDF">
+   <!--<apex:detail subject="{!account.ownerId}" relatedList="false" title="false" inlineEdit="true"/> -->
+   <apex:detail subject="{!Case.Id}" relatedList="true" title="true" relatedListHover="true" inlineEdit="true"/>
+ 
+</apex:page>
